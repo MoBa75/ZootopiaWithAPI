@@ -58,13 +58,10 @@ def connect_animal_info(animal_info, animal_name):
     for animal, infos in animal_info.items():
         complete_animals_info += op.serialize_animal(animal, infos)
     if not complete_animals_info:
-        user_info = ("The animal you are looking for, "
-                     "\nis not in the animal list! "
-                     "\nPlease try again.")
-        return (f'<li class="cards__item">'
-                f'\n  <div class="card__title">{animal_name}</div>'
-                f'\n<div class="card__text">'
-                f' \n<h3>{user_info}</h3></div>')
+
+        return (f"<li class='cards__item'>"
+                f"\n<div class='card__text'>"
+                f" \n<h2>The animal '{animal_name}' doesn't exist.</h2></div></li>")
     # corrects the formatting error happening for ' symbol
     return complete_animals_info.replace("’", "'")
 
