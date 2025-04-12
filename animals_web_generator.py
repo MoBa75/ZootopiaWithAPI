@@ -1,15 +1,25 @@
 import json
 import html_operations as op
+import requests
 
 
-def load_data(file_path):
+def request_data(animal_name):
     """
     Loads all data entries from the JSON file.
     :param file_path:
     :return: data entries as dictionary
     """
-    with open(file_path, 'r', encoding='utf-8') as handle:
-        return json.load(handle)
+
+    api_url = 'https://api.api-ninjas.com/v1/animals?name={}'.format(animal_name)
+    response = requests.get(api_url,
+                            headers={'X-Api-Key': 'VXnBndct7foyIyNdu7byRJDwThtk80OiM5AWCzzs'})
+    res = response.json()
+    if response.status_code == requests.codes.ok:
+        print(response.status_code)
+        #print(f"Animal name: {res[0]['name']}, location: {res[0]['locations'][0]}")
+    else:
+        print("Error:", response.status_code, res)
+    return res
 
 
 def get_animals_info(animals_data):
@@ -51,7 +61,7 @@ def connect_animal_info(animal_info, user_input):
     # Filter und Auswahl des User wird hier erstellt.
     complete_animals_info = ''
     for animal, infos in animal_info.items():
-        if user_input.capitalize() in infos.get("Skin Type", "") or user_input in 'all':
+        if user_input.capitalize() in infos.get("Skin Type", "") or user_input == 'all':
             complete_animals_info += op.serialize_animal(animal, infos)
     # corrects the formatting error happening for ' symbol
     return complete_animals_info.replace("’", "'")
@@ -97,7 +107,8 @@ def get_user_input(skin_types):
 def main():
     """Calls all necessary functions and transfers
     the necessary data to execute the program. """
-    animals_data = load_data('animals_data.json')
+    animal_name ='fox'
+    animals_data = request_data(animal_name)
     animal_info = get_animals_info(animals_data)
     skin_types = get_skin_types(animal_info)
     user_input = get_user_input(skin_types)
