@@ -40,6 +40,7 @@ def get_user_input():
 def main():
     """Calls all necessary functions and transfers
     the necessary data to execute the program. """
+
     animal_name = get_user_input()
     animals_data = da.data_fetcher(animal_name)
     animal_info = get_animals_info(animals_data)
