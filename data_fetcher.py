@@ -2,7 +2,7 @@ import requests
 
 
 URL = 'https://api.api-ninjas.com/v1/animals?name={}'
-API_KEY = 'VXnBndct7foyIyNdu7byRJDwThtk80OiM5AWCzzs'
+
 
 def data_fetcher(animal_name):
     """
