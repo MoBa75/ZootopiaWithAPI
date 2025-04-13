@@ -34,6 +34,28 @@ def serialize_animal(animal, infos):
     return complete_animals_info
 
 
+def connect_animal_info(animal_info, animal_name):
+    """
+    Selects corresponding data entries according to user
+    selection and creates the data for later output
+    :param animal_info: animal database as dictionary
+    :param user_input: corresponding selection of the user as string
+    :return: complete data set of the animals to
+             be displayed in html form as a string
+    """
+    # Filter und Auswahl des User wird hier erstellt.
+    complete_animals_info = ''
+    for animal, infos in animal_info.items():
+        complete_animals_info += serialize_animal(animal, infos)
+    if not complete_animals_info:
+
+        return (f"<li class='cards__item'>"
+                f"\n<div class='card__text'>"
+                f" \n<h2>The animal '{animal_name}' doesn't exist.</h2></div></li>")
+    # corrects the formatting error happening for ' symbol
+    return complete_animals_info.replace("’", "'")
+
+
 def read_html_file(html_data):
     """
     Reads a html file

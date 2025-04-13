@@ -1,21 +1,5 @@
 import html_operations as op
-import requests
-
-URL = 'https://api.api-ninjas.com/v1/animals?name={}'
-API_KEY = 'VXnBndct7foyIyNdu7byRJDwThtk80OiM5AWCzzs'
-
-def request_data(animal_name):
-    """
-    Loads all data entries from the JSON file.
-    :param file_path:
-    :return: data entries as dictionary
-    """
-    api_url = URL.format(animal_name)
-    response = requests.get(api_url, headers={'X-Api-Key': API_KEY})
-    res = response.json()
-    if response.status_code != requests.codes.ok:
-        print("Error:", response.status_code)
-    return res
+import data_fetcher as da
 
 
 def get_animals_info(animals_data):
@@ -44,37 +28,22 @@ def get_animals_info(animals_data):
     return animal_info
 
 
-def connect_animal_info(animal_info, animal_name):
-    """
-    Selects corresponding data entries according to user
-    selection and creates the data for later output
-    :param animal_info: animal database as dictionary
-    :param user_input: corresponding selection of the user as string
-    :return: complete data set of the animals to
-             be displayed in html form as a string
-    """
-    # Filter und Auswahl des User wird hier erstellt.
-    complete_animals_info = ''
-    for animal, infos in animal_info.items():
-        complete_animals_info += op.serialize_animal(animal, infos)
-    if not complete_animals_info:
-
-        return (f"<li class='cards__item'>"
-                f"\n<div class='card__text'>"
-                f" \n<h2>The animal '{animal_name}' doesn't exist.</h2></div></li>")
-    # corrects the formatting error happening for ' symbol
-    return complete_animals_info.replace("’", "'")
+def get_user_input():
+    while True:
+        u_input = input('Please enter a name of an animal: ')
+        if not u_input.isalpha() or not u_input:
+            print("Error: animal names only contain letters!")
+        else:
+            return u_input
 
 
 def main():
     """Calls all necessary functions and transfers
     the necessary data to execute the program. """
-    animal_name = input('Please enter a name of an animal: ')
-    animals_data = request_data(animal_name)
+    animal_name = get_user_input()
+    animals_data = da.data_fetcher(animal_name)
     animal_info = get_animals_info(animals_data)
-
-
-    animal_str = connect_animal_info(animal_info, animal_name)
+    animal_str = op.connect_animal_info(animal_info, animal_name)
     html_data = op.read_html_file('animals_template.html')
     chanced_html = op.chance_html_content(html_data, animal_str)
     op.write_html_file(chanced_html)
