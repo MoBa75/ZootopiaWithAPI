@@ -4,8 +4,8 @@ import data_fetcher as da
 
 def get_animals_info(animals_data):
     """
-    Extract the desired data entries from the overall database.
-    :param animals_data: overall database as dictionary
+    Extract the desired data entries from the API request.
+    :param animals_data: API request as dictionary
     :return: desired data as dictionary
     """
     animal_info = {}
@@ -29,6 +29,10 @@ def get_animals_info(animals_data):
 
 
 def get_user_input():
+    """
+    Gets user input for the animal to search for, handles input validity.
+    :return: animal name as string
+    """
     while True:
         u_input = input('Please enter a name of an animal: ')
         if not u_input.isalpha() or not u_input:
@@ -38,9 +42,7 @@ def get_user_input():
 
 
 def main():
-    """Calls all necessary functions and transfers
-    the necessary data to execute the program. """
-
+    """This program generates an HTML page from API animal data."""
     animal_name = get_user_input()
     animals_data = da.data_fetcher(animal_name)
     animal_info = get_animals_info(animals_data)

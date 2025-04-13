@@ -12,8 +12,8 @@ URL = 'https://api.api-ninjas.com/v1/animals?name={}'
 
 def data_fetcher(animal_name):
     """
-    Loads all data entries from the JSON file.
-    :param file_path:
+    Gets requests from animals API.
+    :param animal_name: name of the animal as string
     :return: data entries as dictionary
     """
     api_url = URL.format(animal_name)

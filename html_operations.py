@@ -37,7 +37,8 @@ def serialize_animal(animal, infos):
 def connect_animal_info(animal_info, animal_name):
     """
     Selects corresponding data entries according to user
-    selection and creates the data for later output
+    selection and creates the data for later output.
+    Create user information if animal is not found in the animal data.
     :param animal_info: animal database as dictionary
     :param user_input: corresponding selection of the user as string
     :return: complete data set of the animals to
